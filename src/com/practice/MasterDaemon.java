@@ -30,9 +30,10 @@ class MasterDaemon implements Runnable{
 
         try {
             do {
+                Thread.sleep(1000);
+
                 checkProgramState();
 
-                Thread.sleep(1000);
             } while (Config.programState.compareTo("0") == 0);
         } catch (InterruptedException ignore) {
 

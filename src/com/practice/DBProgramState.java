@@ -1,6 +1,5 @@
 package com.practice;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 class DBProgramState implements Runnable{
@@ -27,9 +26,8 @@ class DBProgramState implements Runnable{
      */
     @Override
     public void run() {
-        try (var DBconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config")){
-            char command = '1';
-            DBconfig.write((int) command);
+        try {
+            Runtime.getRuntime().exec("cmd.exe /c echo 1 > /toppAppDBdaemon/config/DBDaemon.config");
         } catch (IOException ignore) {
         }
     }
