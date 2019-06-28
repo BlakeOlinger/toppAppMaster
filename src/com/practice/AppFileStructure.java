@@ -1,7 +1,6 @@
 package com.practice;
 
 import java.io.File;
-import java.io.IOException;
 
 class AppFileStructure implements Runnable{
     private final Thread thread;
@@ -28,6 +27,11 @@ class AppFileStructure implements Runnable{
     @Override
     public void run() {
         var configPath = new File("./programFiles/config/");
+        File[] currentVersions = {new File("./programFiles/bin/currentVersion/toppAppUpdater.jar"),
+                new File("./programFiles/bin/currentVersion/toppApp.jar"),
+                new File("./programFiles/bin/currentVersion/toppAppDBdaemon.jar"),
+                new File("./programFiles/bin/currentVersion/toppAppMaster.jar")
+        };
 
         if(!configPath.exists()) {
 
@@ -35,5 +39,14 @@ class AppFileStructure implements Runnable{
                 System.out.println("Dir Made");
             }
         }
+
+        if(!currentVersions[0].exists()) {
+            for(var i = 0; i < 4; ++i) {
+                if (currentVersions[i].mkdirs()) {
+                    System.out.println("Current version: " + i + " made");
+                }
+            }
+        }
+
     }
 }
