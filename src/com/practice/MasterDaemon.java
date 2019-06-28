@@ -41,6 +41,10 @@ class MasterDaemon implements Runnable{
 
         new DBProgramState().shutdown();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignore) {
+        }
     }
 
     private void checkProgramState() {
