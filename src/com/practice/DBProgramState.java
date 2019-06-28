@@ -50,6 +50,8 @@ class DBProgramState implements Runnable{
         // TODO - master.installer in initializing DB is going to check for git command
         // functionality and git repo - if not install - installer ships with master
         // configure PATH for git and then initialize repo
+        // TODO - make tool to copy .jar/.bat from restricted dev out folder to TOPP App DB update folder
+        // add that tool to PATH so a simple command will execute it
         try (var dbconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config");
         ) {
             char command = '1';
