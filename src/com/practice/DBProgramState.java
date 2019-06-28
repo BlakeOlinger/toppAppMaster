@@ -39,6 +39,17 @@ class DBProgramState implements Runnable{
         // TODO - JLink all so each service is a standalone entity
         // TODO - have master listen for udpate service command to update the updater service
         // TODO - change any unnecessary calls to cmd.exe to Java runtime commands
+        // TODO - include .jar/.bat in DB /bin folder
+        // TODO - decouple DB daemon source code repository from DB repository
+        // TODO - in addition to an installer - make an uninstaller via some
+        // manual command input in the master.config file - make it delete all
+        // directories and files related to app
+        // TODO - either for GUI or internally allow a user to input a general area
+        // for a new feature - I, II, III, IV - centered in each quadrant
+        // and I-IV, II-III, III-IV, IV-I for centered on the right/left, up/down axis
+        // TODO - master.installer in initializing DB is going to check for git command
+        // functionality and git repo - if not install - installer ships with master
+        // configure PATH for git and then initialize repo
         try (var dbconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config");
         ) {
             char command = '1';
