@@ -31,6 +31,10 @@ class DBProgramState implements Runnable{
         // decouple check for kill from check for pull
         // TODO  - change non DB files from toppAppDBdaemon to  /programfiles/config and
         // /programfiles/session - for .config and .session files
+        // TODO pathing off in DB daemon - created multiple .git repos
+        // TODO have master boot strap app with installer function - master will have shortcut icon
+        // move DB initializer from DB daemon to master and master will copy .jars and run them
+        // make shortcut on desktop as well
         try (var dbconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config");
         ) {
             char command = '1';
