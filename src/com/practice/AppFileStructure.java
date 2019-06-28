@@ -27,11 +27,7 @@ class AppFileStructure implements Runnable{
     @Override
     public void run() {
         var configPath = new File("./programFiles/config/");
-        File[] currentVersions = {new File("./programFiles/bin/currentVersion/toppAppUpdater.jar"),
-                new File("./programFiles/bin/currentVersion/toppApp.jar"),
-                new File("./programFiles/bin/currentVersion/toppAppDBdaemon.jar"),
-                new File("./programFiles/bin/currentVersion/toppAppMaster.jar")
-        };
+        var currentVersion = new File("./programFiles/bin/currentVersion/");
 
         if(!configPath.exists()) {
 
@@ -40,13 +36,10 @@ class AppFileStructure implements Runnable{
             }
         }
 
-        if(!currentVersions[0].exists()) {
-            for(var i = 0; i < 4; ++i) {
-                if (currentVersions[i].mkdirs()) {
-                    System.out.println("Current version: " + i + " made");
-                }
+        if(!currentVersion.exists()) {
+            if(currentVersion.mkdirs()) {
+                System.out.println("Current Version Directory Made");
             }
         }
-
     }
 }

@@ -29,13 +29,15 @@ public class InitializeApp implements Runnable{
     public void run() {
         try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config");
              var masterConfig = new FileOutputStream(Config.installDirectory + "master.config");
-             var guiConfig = new FileOutputStream(Config.installDirectory + "GUI.config")) {
+             var guiConfig = new FileOutputStream(Config.installDirectory + "GUI.config");
+             var updaterConfig = new FileOutputStream(Config.installDirectory + "updater.config")) {
 
             char command = '0';
 
             DBconfig.write((int)command);
             masterConfig.write((int)command);
             guiConfig.write((int)command);
+            updaterConfig.write((int) command);
 
              } catch (IOException ignore) {
         }
