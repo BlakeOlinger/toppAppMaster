@@ -35,6 +35,10 @@ class DBProgramState implements Runnable{
         // TODO have master boot strap app with installer function - master will have shortcut icon
         // move DB initializer from DB daemon to master and master will copy .jars and run them
         // make shortcut on desktop as well
+        // TODO - restructure modules/packages so all apps are in one package for easy JLinking
+        // TODO - JLink all so each service is a standalone entity
+        // TODO - have master listen for udpate service command to update the updater service
+        // TODO - change any unnecessary calls to cmd.exe to Java runtime commands
         try (var dbconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config");
         ) {
             char command = '1';
