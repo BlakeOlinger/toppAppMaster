@@ -14,11 +14,17 @@ class MicroServicesInstaller {
         var DBdaemonDBpath = "toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar";
         var DBinstallFile = "toppAppDBdaemon.jar";
 
+        var updaterDBPath = "toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar";
+        var updaterInstallFile = "toppAppUpdater.jar";
+
         if(!new File(GUIinstallFile).exists())
             copyFiles(toppAppDBPath, GUIinstallFile);
 
         if(!new File(DBinstallFile).exists())
             copyFiles(DBdaemonDBpath, DBinstallFile);
+
+        if(!new File(updaterInstallFile).exists())
+            copyFiles(updaterDBPath, updaterInstallFile);
     }
 
     void checkAndInstallServices() {
