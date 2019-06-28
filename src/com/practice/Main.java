@@ -16,5 +16,6 @@ public class Main {
 
         App.startAllServices();
 
+        new MasterDaemon().startMasterDaemon();
     }
 }
