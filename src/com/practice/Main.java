@@ -13,7 +13,9 @@ other services
 public class Main {
 
     public static void main(String[] args) {
-        Installer.checkAndInstall();
+       //Installer.checkAndInstall();
+
+        new InitializeApp().initializeConfigFiles();
 
          App.startAllServices();
 

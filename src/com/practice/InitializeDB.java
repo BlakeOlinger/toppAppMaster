@@ -11,8 +11,7 @@ class InitializeDB {
 
     private void run() {
         try {
-            var gitConfig = new FileInputStream(Config.installDirectory +
-                    "/.git");
+            var gitConfig = new FileInputStream("toppAppDBdaemon/.git");
             if(gitConfig.available() == 0)
                 throw new IOException();
         } catch (IOException ignore) {

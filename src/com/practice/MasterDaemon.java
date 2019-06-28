@@ -27,24 +27,18 @@ class MasterDaemon implements Runnable{
      */
     @Override
     public void run() {
+        new DBProgramState().shutdown();
 
         try {
             do {
-                Thread.sleep(1000);
-
                 checkProgramState();
 
+                Thread.sleep(1000);
             } while (Config.programState.compareTo("0") == 0);
         } catch (InterruptedException ignore) {
 
         }
 
-        new DBProgramState().shutdown();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ignore) {
-        }
     }
 
     private void checkProgramState() {
@@ -52,8 +46,7 @@ class MasterDaemon implements Runnable{
         FileInputStream configFile;
         try {
             configFile = new FileInputStream(
-                    Config.installDirectory +
-                            "/config/master.config");
+                    Config.installDirectory + "master.config");
 
             int readByte;
             int index = 0;

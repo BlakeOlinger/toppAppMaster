@@ -52,10 +52,11 @@ class DBProgramState implements Runnable{
         // configure PATH for git and then initialize repo
         // TODO - make tool to copy .jar/.bat from restricted dev out folder to TOPP App DB update folder
         // add that tool to PATH so a simple command will execute it
-        try (var dbconfig = new FileOutputStream(Config.installDirectory + "/config/DBDaemon.config");
-        ) {
+        try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config")) {
+            Runtime.getRuntime().exec("cmd.exe /c echo write > test.log");
+
             char command = '1';
-            dbconfig.write((int) command);
+            DBconfig.write((int) command);
         } catch (IOException ignore) {
         }
     }
