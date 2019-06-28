@@ -15,8 +15,8 @@ public class Main {
     public static void main(String[] args) {
         Installer.checkAndInstall();
 
-         App.startAllServices();
+         // App.startAllServices();
 
-         new MasterDaemon().startMasterDaemon();
+         // new MasterDaemon().startMasterDaemon();
     }
 }
