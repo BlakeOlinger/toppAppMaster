@@ -1,5 +1,6 @@
 package com.practice;
 
+
 /*
 this microservice daemon is the master controller for the other microservices:
 the GUI, DB, Updater and C# SW
@@ -13,6 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        App.startAllServices();
 
     }
 }
