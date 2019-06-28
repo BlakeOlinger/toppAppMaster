@@ -27,17 +27,12 @@ class AppFileStructure implements Runnable{
      */
     @Override
     public void run() {
-        var directoryPath = new File("/programFiles/config/");
+        var configPath = new File("./programFiles/config/");
 
+        if(!configPath.exists()) {
 
-
-        if(!directoryPath.exists()) {
-
-            // have to use cmd.exe in windows
-            // try Java File class
-            try {
-                Runtime.getRuntime().exec("cmd.exe /c ");
-            } catch (IOException ignore) {
+            if(configPath.mkdirs()) {
+                System.out.println("Dir Made");
             }
         }
     }
