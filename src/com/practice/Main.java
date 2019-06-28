@@ -13,12 +13,15 @@ other services
 public class Main {
 
     public static void main(String[] args) {
-       //Installer.checkAndInstall();
+       Installer.checkAndInstall();
 
-        new InitializeApp().initializeConfigFiles();
+       new InitializeApp().initializeConfigFiles();
 
-         App.startAllServices();
+        App.startAllServices();
 
          new MasterDaemon().startMasterDaemon();
+
+        // For Debugging
+        // new DBProgramState().shutdown();
     }
 }

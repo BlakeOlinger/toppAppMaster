@@ -27,7 +27,6 @@ class MasterDaemon implements Runnable{
      */
     @Override
     public void run() {
-        new DBProgramState().shutdown();
 
         try {
             do {
@@ -39,6 +38,7 @@ class MasterDaemon implements Runnable{
 
         }
 
+        new DBProgramState().shutdown();
     }
 
     private void checkProgramState() {

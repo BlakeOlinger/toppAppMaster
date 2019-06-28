@@ -7,7 +7,7 @@ class DBProgramState implements Runnable{
     private final Thread thread;
 
     DBProgramState() {
-        thread = new Thread();
+        thread = new Thread(this, "DB Daemon Kill");
     }
 
     void shutdown() {
@@ -52,12 +52,21 @@ class DBProgramState implements Runnable{
         // configure PATH for git and then initialize repo
         // TODO - make tool to copy .jar/.bat from restricted dev out folder to TOPP App DB update folder
         // add that tool to PATH so a simple command will execute it
-        try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config")) {
-            Runtime.getRuntime().exec("cmd.exe /c echo write > test.log");
 
+        // For Debugging
+        /*
+        System.out.println("Shutdown");
+
+        var file = new File(Config.installDirectory + "DBdaemon.config");
+        System.out.println(file.exists());
+        */
+        try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config")) {
             char command = '1';
+
             DBconfig.write((int) command);
         } catch (IOException ignore) {
         }
+
+
     }
 }
