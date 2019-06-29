@@ -27,10 +27,10 @@ public class InitializeApp implements Runnable{
      */
     @Override
     public void run() {
-        try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config");
-             var masterConfig = new FileOutputStream(Config.installDirectory + "master.config");
-             var guiConfig = new FileOutputStream(Config.installDirectory + "GUI.config");
-             var updaterConfig = new FileOutputStream(Config.installDirectory + "updater.config")) {
+        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
+             var masterConfig = new FileOutputStream(Config.configFilePath + "master.config");
+             var guiConfig = new FileOutputStream(Config.configFilePath + "GUI.config");
+             var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config")) {
 
             char command = '0';
 

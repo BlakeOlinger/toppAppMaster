@@ -57,10 +57,10 @@ class DBProgramState implements Runnable{
         /*
         System.out.println("Shutdown");
 
-        var file = new File(Config.installDirectory + "DBdaemon.config");
+        var file = new File(Config.configFilePath + "DBdaemon.config");
         System.out.println(file.exists());
         */
-        try (var DBconfig = new FileOutputStream(Config.installDirectory + "DBdaemon.config")) {
+        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config")) {
             char command = '1';
 
             DBconfig.write((int) command);

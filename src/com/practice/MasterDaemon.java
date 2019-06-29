@@ -47,7 +47,7 @@ class MasterDaemon implements Runnable{
         FileInputStream configFile;
         try {
             configFile = new FileInputStream(
-                    Config.installDirectory + "master.config");
+                    Config.configFilePath + "master.config");
 
             int readByte;
             int index = 0;

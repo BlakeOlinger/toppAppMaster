@@ -29,17 +29,24 @@ class AppFileStructure implements Runnable{
         var configPath = new File("./programFiles/config/");
         var currentVersion = new File("./programFiles/bin/currentVersion/");
 
+        System.out.println(" Checking for existing File Directories");
         if(!configPath.exists()) {
+            System.out.println(" Program Directories Not Found - Creating Directories");
 
-            if(configPath.mkdirs()) {
-                System.out.println("Dir Made");
+            if(!currentVersion.exists()) {
+                currentVersion.mkdirs();
             }
+
+            configPath.mkdirs();
+
+            if(configPath.exists() && currentVersion.exists()) {
+                System.out.println(" Directories Successfully Made");
+            } else {
+                System.out.println(" Unable to Create Directories");
+            }
+        } else {
+            System.out.println(" Program Directories Found");
         }
 
-        if(!currentVersion.exists()) {
-            if(currentVersion.mkdirs()) {
-                System.out.println("Current Version Directory Made");
-            }
-        }
     }
 }

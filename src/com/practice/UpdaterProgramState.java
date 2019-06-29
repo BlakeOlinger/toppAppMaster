@@ -28,7 +28,7 @@ public class UpdaterProgramState implements Runnable{
     @Override
     public void run() {
 
-        try (var updaterConfig = new FileOutputStream(Config.installDirectory + "updater.config")) {
+        try (var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config")) {
             char command = '1';
 
             updaterConfig.write((int) command);
