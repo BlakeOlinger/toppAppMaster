@@ -2,10 +2,10 @@ package com.practice;
 
 class Installer {
     static void checkAndInstall() {
-       new InitializeDB().checkAndInitializeDB();
+      InitializeDB.checkAndInitializeDB();
 
        new AppFileStructure().checkAndInstallFileDirectories();
 
-     //  new MicroServicesInstaller().checkAndInstallServices();
+      MicroServicesInstaller.checkAndInstallServices();
     }
 }

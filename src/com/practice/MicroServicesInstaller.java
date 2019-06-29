@@ -7,7 +7,7 @@ import java.io.IOException;
 
 class MicroServicesInstaller {
 
-    private void run() {
+    private static void run() {
         var toppAppDBPath = "toppAppDBdaemon/programFiles/bin/toppApp.jar";
         var GUIinstallFile = "toppApp.jar";
 
@@ -17,21 +17,24 @@ class MicroServicesInstaller {
         var updaterDBPath = "toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar";
         var updaterInstallFile = "toppAppUpdater.jar";
 
-        if(!new File(GUIinstallFile).exists())
-            copyFiles(toppAppDBPath, GUIinstallFile);
+        System.out.println(" Checking Installed Microservices...");
 
-        if(!new File(DBinstallFile).exists())
-            copyFiles(DBdaemonDBpath, DBinstallFile);
+        if(new File(GUIinstallFile).exists()) {
+            System.out.println(" Microservices Installed");
+        } else {
+            installMicroservice(toppAppDBPath, GUIinstallFile, "GUI");
 
-        if(!new File(updaterInstallFile).exists())
-            copyFiles(updaterDBPath, updaterInstallFile);
+            installMicroservice(DBdaemonDBpath, DBinstallFile, "Database");
+
+            installMicroservice(updaterDBPath, updaterInstallFile, "Live Update");
+        }
     }
 
-    void checkAndInstallServices() {
+    static void checkAndInstallServices() {
         run();
     }
 
-    private void copyFiles(String original, String copy) {
+    private static void copyFiles(String original, String copy) {
 
         try (var originalFile = new FileInputStream(original);
              var copyFile = new FileOutputStream(copy)){
@@ -46,5 +49,17 @@ class MicroServicesInstaller {
         } catch (IOException ignore) {
         }
 
+    }
+
+    private static void installMicroservice(String original, String copy, String microservice) {
+        if(!new File(copy).exists()) {
+            System.out.println(" TOPP App: " + microservice + " Microservice Not Installed - Installing...");
+            copyFiles(original, copy);
+            if (new File(copy).exists()) {
+                System.out.println(" TOPP App: " + microservice + " Microservice Installed ");
+            } else {
+                System.out.println(" ERROR: TOPP App: " + microservice +  " Microservice Was Not Installed");
+            }
+        }
     }
 }

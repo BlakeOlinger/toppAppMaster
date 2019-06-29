@@ -6,11 +6,11 @@ import java.net.InetAddress;
 
 class InitializeDB {
 
-    void checkAndInitializeDB() {
+   static void checkAndInitializeDB() {
         run();
     }
 
-    private void run() {
+    private static void run() {
 
         System.out.println(" Checking if toppAppDBdaemon/.git exists...");
 
