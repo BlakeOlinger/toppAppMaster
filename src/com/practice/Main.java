@@ -15,8 +15,7 @@ public class Main {
     public static void main(String[] args) {
        Installer.checkAndInstall();
 
-       // re-initializes config files for each microservice
-      // new InitializeApp().initializeConfigFiles();
+       new InitializeApp().initializeConfigFiles();
 
        // App.startAllServices();
 

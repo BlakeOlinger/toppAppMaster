@@ -1,7 +1,6 @@
 package com.practice;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class InitializeApp implements Runnable{
     private final Thread thread;
@@ -27,6 +26,12 @@ public class InitializeApp implements Runnable{
      */
     @Override
     public void run() {
+        System.out.println(" Initializing App - Initializing Config Files");
+        var DBname = "DBdaemon.config";
+        var masterName = "master.config";
+        var GUIname = "GUI.config";
+        var updaterName = "updater.config";
+
         try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
              var masterConfig = new FileOutputStream(Config.configFilePath + "master.config");
              var guiConfig = new FileOutputStream(Config.configFilePath + "GUI.config");
@@ -39,7 +44,37 @@ public class InitializeApp implements Runnable{
             guiConfig.write((int)command);
             updaterConfig.write((int) command);
 
+            confirmConfigFileInitialization(Config.configFilePath + DBname, DBname);
+            confirmConfigFileInitialization(Config.configFilePath + masterName, masterName);
+            confirmConfigFileInitialization(Config.configFilePath + GUIname, GUIname);
+            confirmConfigFileInitialization(Config.configFilePath + updaterName, updaterName);
+
+
              } catch (IOException ignore) {
+            System.out.println(" ERROR: Could Not Initialize Config Files");
+        }
+    }
+
+    private static void confirmConfigFileInitialization(String path, String name) {
+        System.out.println(" Confirming Initialization For - " + name);
+        if(new File(path).exists()) {
+
+            System.out.println(" " + name + " Config File Found - Initializing...");
+
+            try (var configFile = new FileInputStream(path)) {
+
+                if(String.valueOf((char) configFile.read()).compareTo("0") == 0) {
+                    System.out.println(" " + name + " Successfully Initialized");
+                } else {
+                    System.out.println("ERROR: " + name + " Could Not Be Initialized");
+                }
+
+            } catch (IOException ignore) {
+                System.out.println(" ERROR: Could Not Open " + name);
+            }
+
+        } else {
+            System.out.println(" ERROR: File " + name + " Not Found");
         }
     }
 }
