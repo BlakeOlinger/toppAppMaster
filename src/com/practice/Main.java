@@ -16,11 +16,11 @@ public class Main {
        Installer.checkAndInstall();
 
        // re-initializes config files for each microservice
-       new InitializeApp().initializeConfigFiles();
+      // new InitializeApp().initializeConfigFiles();
 
-       App.startAllServices();
+       // App.startAllServices();
 
-         new MasterDaemon().startMasterDaemon();
+        // new MasterDaemon().startMasterDaemon();
 
         // For Debugging
         // new DBProgramState().shutdown();

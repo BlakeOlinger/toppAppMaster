@@ -39,6 +39,7 @@ class MasterDaemon implements Runnable{
         }
 
         new DBProgramState().shutdown();
+        new UpdaterProgramState().shutdown();
     }
 
     private void checkProgramState() {
