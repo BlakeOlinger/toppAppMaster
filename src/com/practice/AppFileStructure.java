@@ -43,6 +43,7 @@ class AppFileStructure implements Runnable{
                 System.out.println(" Directories Successfully Made");
             } else {
                 System.out.println(" Unable to Create Directories");
+                ++Config.errorCount;
             }
         } else {
             System.out.println(" Program Directories Found");

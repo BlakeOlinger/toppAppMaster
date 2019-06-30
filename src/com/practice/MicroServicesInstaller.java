@@ -59,6 +59,7 @@ class MicroServicesInstaller {
                 System.out.println(" TOPP App: " + microservice + " Microservice Installed ");
             } else {
                 System.out.println(" ERROR: TOPP App: " + microservice +  " Microservice Was Not Installed");
+                ++Config.errorCount;
             }
         }
     }

@@ -36,12 +36,15 @@ class InitializeDB {
                     System.out.println(" Database Successfully Installed");
                 } else {
                     System.out.println(" ERROR: Database Install Unsuccessful");
+                    ++Config.errorCount;
                 }
 
             } catch (IOException ignore) {
                 System.out.println(" No Connection Available");
+                ++Config.errorCount;
             } catch (InterruptedException ignore) {
                 System.out.println(" ERROR: Executing Thread did not wait for Database download to finish");
+                ++Config.errorCount;
             }
 
         } else {

@@ -7,5 +7,7 @@ class Installer {
         new AppFileStructure().checkAndInstallFileDirectories();
 
        MicroServicesInstaller.checkAndInstallServices();
+
+        System.out.println("Master Daemon - Installer Completed with - " + Config.errorCount + " Errors");
     }
 }

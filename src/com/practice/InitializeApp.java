@@ -26,6 +26,8 @@ public class InitializeApp implements Runnable{
      */
     @Override
     public void run() {
+        Config.errorCount = 0;
+
         System.out.println(" Initializing App - Initializing Config Files");
         var DBname = "DBdaemon.config";
         var masterName = "master.config";
@@ -52,7 +54,10 @@ public class InitializeApp implements Runnable{
 
              } catch (IOException ignore) {
             System.out.println(" ERROR: Could Not Initialize Config Files");
+            ++Config.errorCount;
         }
+
+        System.out.println("Master Daemon - App Initializer Completed with - " + Config.errorCount + " Errors");
     }
 
     private static void confirmConfigFileInitialization(String path, String name) {
@@ -67,14 +72,17 @@ public class InitializeApp implements Runnable{
                     System.out.println(" " + name + " Successfully Initialized");
                 } else {
                     System.out.println("ERROR: " + name + " Could Not Be Initialized");
+                    ++Config.errorCount;
                 }
 
             } catch (IOException ignore) {
                 System.out.println(" ERROR: Could Not Open " + name);
+                ++Config.errorCount;
             }
 
         } else {
             System.out.println(" ERROR: File " + name + " Not Found");
+            ++Config.errorCount;
         }
     }
 }
