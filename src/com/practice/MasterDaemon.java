@@ -28,32 +28,33 @@ class MasterDaemon implements Runnable{
     @Override
     public void run() {
 
+        System.out.println(" Master Daemon - Start");
         try {
             do {
                 checkProgramState();
 
-                Thread.sleep(1000);
+                System.out.println(" Master Daemon - Thread Sleep 2,000 ms");
+                Thread.sleep(2000);
             } while (Config.programState.compareTo("0") == 0);
         } catch (InterruptedException ignore) {
 
         }
 
         new DBProgramState().shutdown();
+
         new UpdaterProgramState().shutdown();
+
+        System.out.println(" Master Daemon - End");
     }
 
     private void checkProgramState() {
 
-        FileInputStream configFile;
-        try {
-            configFile = new FileInputStream(
-                    Config.configFilePath + "master.config");
-
+        try (var configFile = new FileInputStream(Config.configFilePath + "master.config")){
+            System.out.println(" Master Daemon - Reading Program State...");
             int readByte;
             int index = 0;
             do {
                 readByte = configFile.read();
-
 
                 if (readByte != -1) {
                     for (; index < 1; ++index) {
@@ -61,9 +62,11 @@ class MasterDaemon implements Runnable{
                     }
                 }
 
+                System.out.println(" Master Daemon Program State - " + Config.programState );
+
+
             } while (readByte != -1);
 
-            configFile.close();
         } catch (IOException ignore) {
 
         }

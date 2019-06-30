@@ -1,5 +1,6 @@
 package com.practice;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -37,7 +38,7 @@ class DBProgramState implements Runnable{
         // make shortcut on desktop as well
         // TODO - restructure modules/packages so all apps are in one package for easy JLinking
         // TODO - JLink all so each service is a standalone entity
-        // TODO - have master listen for udpate service command to update the updater service
+        // TODO - have master listen for update service command to update the updater service
         // TODO - change any unnecessary calls to cmd.exe to Java runtime commands
         // TODO - include .jar/.bat in DB /bin folder
         // TODO - decouple DB daemon source code repository from DB repository
@@ -53,17 +54,23 @@ class DBProgramState implements Runnable{
         // TODO - make tool to copy .jar/.bat from restricted dev out folder to TOPP App DB update folder
         // add that tool to PATH so a simple command will execute it
 
-        // For Debugging
-        /*
-        System.out.println("Shutdown");
 
-        var file = new File(Config.configFilePath + "DBdaemon.config");
-        System.out.println(file.exists());
-        */
-        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config")) {
+        System.out.println(" Sending Kill Command - Database Microservice");
+
+        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
+        var DBconfigRead = new FileInputStream(Config.configFilePath + "DBdaemon.config")) {
             char command = '1';
 
             DBconfig.write((int) command);
+
+            int byteRead = DBconfigRead.read();
+
+            if(String.valueOf((char) byteRead).compareTo("1") == 0) {
+                System.out.println(" Database Microservice Config File Updated with Kill Command - Success");
+            } else {
+                System.out.println(" ERROR: Could Not Send Database Microservice Kill Command");
+            }
+
         } catch (IOException ignore) {
         }
 

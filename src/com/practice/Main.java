@@ -17,11 +17,8 @@ public class Main {
 
        new InitializeApp().initializeConfigFiles();
 
-      //   App.startAllServices();
+         App.startAllServices();
 
-        // new MasterDaemon().startMasterDaemon();
-
-        // For Debugging
-        // new DBProgramState().shutdown();
+         new MasterDaemon().startMasterDaemon();
     }
 }
