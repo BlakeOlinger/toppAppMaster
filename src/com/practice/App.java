@@ -13,7 +13,7 @@ class App {
             System.out.println(" Starting Database Daemon...");
             Runtime.getRuntime().exec("cmd.exe /c " + services[1]);
             System.out.println(" Starting Live Update Daemon...");
-            Runtime.getRuntime().exec("cnd.exe /c " + services[2]);
+            Runtime.getRuntime().exec("cmd.exe /c " + services[2]);
 
         } catch (IOException ignore) {
         }
