@@ -40,8 +40,11 @@ public class InitializeApp implements Runnable{
              var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config")) {
 
             char command = '0';
+            int databasePushState = (int) '1';
 
             DBconfig.write((int)command);
+            DBconfig.write(databasePushState);
+
             masterConfig.write((int)command);
             guiConfig.write((int)command);
             updaterConfig.write((int) command);
