@@ -44,6 +44,8 @@ class MasterDaemon implements Runnable{
 
         new UpdaterProgramState().shutdown();
 
+        new GUIProgramState().shutdown();
+
         System.out.println(" Master Daemon - End");
     }
 
