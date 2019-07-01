@@ -49,7 +49,9 @@ public class InitializeApp implements Runnable{
             masterConfig.write(databasePushState);
 
             guiConfig.write((int)command);
+
             updaterConfig.write((int) command);
+            updaterConfig.write(databasePushState);
 
             confirmConfigFileInitialization(Config.configFilePath + DBname, DBname);
             confirmConfigFileInitialization(Config.configFilePath + masterName, masterName);
