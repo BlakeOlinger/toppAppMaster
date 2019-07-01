@@ -35,6 +35,7 @@ public class UpdaterProgramState implements Runnable{
             char command = '1';
 
             updaterConfig.write((int) command);
+            updaterConfig.write((int) command);
 
             int byteRead = configRead.read();
             if (String.valueOf((char) byteRead).compareTo("1") == 0) {
