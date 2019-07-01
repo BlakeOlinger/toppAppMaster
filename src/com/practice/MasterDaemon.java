@@ -54,6 +54,8 @@ class MasterDaemon implements Runnable{
 
         new GUIProgramState().shutdown();
 
+        new SWdaemonState().shutdown();
+
         System.out.println(" Master Daemon - End");
     }
 
