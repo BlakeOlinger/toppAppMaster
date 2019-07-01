@@ -33,11 +33,13 @@ public class InitializeApp implements Runnable{
         var masterName = "master.config";
         var GUIname = "GUI.config";
         var updaterName = "updater.config";
+        var SWdaemon = "SWdaemon.config";
 
         try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
              var masterConfig = new FileOutputStream(Config.configFilePath + "master.config");
              var guiConfig = new FileOutputStream(Config.configFilePath + "GUI.config");
-             var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config")) {
+             var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config");
+             var SWdaemonConfig = new FileOutputStream(Config.configFilePath + SWdaemon)) {
 
             char command = '0';
             int databasePushState = (int) '1';
@@ -52,6 +54,8 @@ public class InitializeApp implements Runnable{
 
             updaterConfig.write((int) command);
             updaterConfig.write(databasePushState);
+
+            SWdaemonConfig.write((int) command);
 
             confirmConfigFileInitialization(Config.configFilePath + DBname, DBname);
             confirmConfigFileInitialization(Config.configFilePath + masterName, masterName);
