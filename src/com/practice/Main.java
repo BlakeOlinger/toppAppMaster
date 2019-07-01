@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
          Installer.checkAndInstall();
 
-         new InitializeApp().initializeConfigFiles();
+        new InitializeApp().initializeConfigFiles();
 
          App.startAllServices();
 
