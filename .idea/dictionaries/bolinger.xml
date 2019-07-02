@@ -2,10 +2,12 @@
   <dictionary name="bolinger">
     <words>
       <w>bdaemon</w>
+      <w>blemp</w>
       <w>bname</w>
       <w>iname</w>
       <w>inet</w>
       <w>initalaizer</w>
+      <w>initalization</w>
       <w>microservice</w>
       <w>microservices</w>
       <w>multithreaded</w>
