@@ -1,8 +1,8 @@
 package com.practice;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class UpdaterProgramState implements Runnable{
     private final Thread thread;
@@ -15,37 +15,13 @@ public class UpdaterProgramState implements Runnable{
         thread.start();
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>checkAndInitializeDB</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>checkAndInitializeDB</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
     @Override
     public void run() {
+        var path = Paths.get("programFiles/config/updater.config");
 
-        System.out.println(" Sending Kill Command - Live Update Microservice");
-        try (var updaterConfig = new FileOutputStream( "updater.config");
-        var configRead = new FileInputStream( "updater.config")) {
-            char command = '1';
-
-            updaterConfig.write((int) command);
-            updaterConfig.write((int) command);
-
-            int byteRead = configRead.read();
-            if (String.valueOf((char) byteRead).compareTo("1") == 0) {
-                System.out.println(" Live Update Microservice Kill Command - Success");
-            } else {
-                System.out.println(" ERROR: Could Not Send Live Update Microservice Kill Command");
-            }
-
+        try {
+            Files.writeString(path, new StringBuilder("1"));
         } catch (IOException ignore) {
         }
-
     }
 }
