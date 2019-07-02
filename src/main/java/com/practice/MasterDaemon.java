@@ -140,7 +140,7 @@ class MasterDaemon implements Runnable{
 
     private void checkProgramState() {
 
-        try (var configFile = new FileInputStream(Config.configFilePath + "master.config")){
+        try (var configFile = new FileInputStream( "master.config")){
             System.out.println(" Master Daemon - Reading Program State...");
             int readByte;
             int index = 0;

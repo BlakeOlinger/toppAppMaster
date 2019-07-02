@@ -2,26 +2,26 @@ package com.practice;
 
 import java.io.IOException;
 
-class App {
-    static void startAllServices() {
-        String[] services = {"toppApp.jar", "toppAppDBdaemon.jar", "toppAppUpdater.jar"};
+class App implements Runnable{
+    private final Thread thread;
+    private final String name;
 
-        System.out.println(" Starting Microservices...");
+    App(String name) {
+        this.name = name;
+        thread = new Thread(this, "Start Microservice");
+    }
+
+    void startMicroservice() {
+        thread.start();
+    }
+
+    @Override
+    public void run() {
         try {
-            System.out.println(" Starting GUI...");
-            Runtime.getRuntime().exec("cmd.exe /c " + services[0]);
-            System.out.println(" Starting Database Daemon...");
-            Runtime.getRuntime().exec("cmd.exe /c " + services[1]);
-            System.out.println(" Starting Live Update Daemon...");
-            Runtime.getRuntime().exec("cmd.exe /c " + services[2]);
-
-            System.out.println(" Starting SW Daemon...");
-            Runtime.getRuntime().exec(" cmd.exe /c sw-part-auto-test.exe");
-
-
-        } catch (IOException ignore) {
+            var process = new ProcessBuilder("cmd.exe", "/c", name).start();
+            process.waitFor();
+            process.destroy();
+        } catch (IOException | InterruptedException ignore) {
         }
-
-
     }
 }

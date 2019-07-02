@@ -1,99 +1,31 @@
 package com.practice;
 
-import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class InitializeApp implements Runnable{
     private final Thread thread;
+    private final Path filePath;
+    private final CharSequence commands;
 
-    InitializeApp() {
+    InitializeApp(Path filePath, CharSequence commands) {
+        this.filePath = filePath;
+        this.commands = commands;
         thread = new Thread(this, "App Config Init");
     }
 
-    void initializeConfigFiles() {
+    void initializeConfigFile() {
         thread.start();
 
     }
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>checkAndInitializeDB</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>checkAndInitializeDB</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
+
     @Override
     public void run() {
-        Config.errorCount = 0;
-
-        System.out.println(" Initializing App - Initializing Config Files");
-        var DBname = "DBdaemon.config";
-        var masterName = "master.config";
-        var GUIname = "GUI.config";
-        var updaterName = "updater.config";
-        var SWdaemon = "SWdaemon.config";
-
-        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
-             var masterConfig = new FileOutputStream(Config.configFilePath + "master.config");
-             var guiConfig = new FileOutputStream(Config.configFilePath + "GUI.config");
-             var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config");
-             var SWdaemonConfig = new FileOutputStream(Config.configFilePath + SWdaemon)) {
-
-            char command = '0';
-            int databasePushState = (int) '1';
-
-            DBconfig.write((int)command);
-            DBconfig.write(databasePushState);
-
-            masterConfig.write((int)command);
-            masterConfig.write(databasePushState);
-
-            guiConfig.write((int)command);
-
-            updaterConfig.write((int) command);
-            updaterConfig.write(databasePushState);
-
-            SWdaemonConfig.write((int) command);
-
-            confirmConfigFileInitialization(Config.configFilePath + DBname, DBname);
-            confirmConfigFileInitialization(Config.configFilePath + masterName, masterName);
-            confirmConfigFileInitialization(Config.configFilePath + GUIname, GUIname);
-            confirmConfigFileInitialization(Config.configFilePath + updaterName, updaterName);
-
-
-             } catch (IOException ignore) {
-            System.out.println(" ERROR: Could Not Initialize Config Files");
-            ++Config.errorCount;
-        }
-
-        System.out.println("Master Daemon - App Initializer Completed with - " + Config.errorCount + " Errors");
-    }
-
-    private static void confirmConfigFileInitialization(String path, String name) {
-        System.out.println(" Confirming Initialization For - " + name);
-        if(new File(path).exists()) {
-
-            System.out.println(" " + name + " Config File Found - Initializing...");
-
-            try (var configFile = new FileInputStream(path)) {
-
-                if(String.valueOf((char) configFile.read()).compareTo("0") == 0) {
-                    System.out.println(" " + name + " Successfully Initialized");
-                } else {
-                    System.out.println("ERROR: " + name + " Could Not Be Initialized");
-                    ++Config.errorCount;
-                }
-
-            } catch (IOException ignore) {
-                System.out.println(" ERROR: Could Not Open " + name);
-                ++Config.errorCount;
-            }
-
-        } else {
-            System.out.println(" ERROR: File " + name + " Not Found");
-            ++Config.errorCount;
+        try {
+            var file = Files.writeString(filePath, commands);
+            Config.areAppConfigFilesInitialized.add(Files.exists(file));
+        } catch (IOException ignore) {
         }
     }
 }

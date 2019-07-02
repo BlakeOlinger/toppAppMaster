@@ -30,8 +30,8 @@ public class UpdaterProgramState implements Runnable{
     public void run() {
 
         System.out.println(" Sending Kill Command - Live Update Microservice");
-        try (var updaterConfig = new FileOutputStream(Config.configFilePath + "updater.config");
-        var configRead = new FileInputStream(Config.configFilePath + "updater.config")) {
+        try (var updaterConfig = new FileOutputStream( "updater.config");
+        var configRead = new FileInputStream( "updater.config")) {
             char command = '1';
 
             updaterConfig.write((int) command);

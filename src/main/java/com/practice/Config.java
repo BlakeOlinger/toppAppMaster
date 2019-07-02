@@ -1,10 +1,11 @@
 package com.practice;
 
+import java.util.ArrayList;
+
 class Config {
-    static String programState = "0";
-    static String configFilePath = "programFiles/config/";
-    static int errorCount = 0;
+    static String programState = "1";
     static String liveUpdateCommandState = "1";
-    static boolean servicesInstalled = false;
+    static boolean areServicesInstalled = false;
     static boolean isDatabaseInstalled = false;
+    static ArrayList<Boolean> areAppConfigFilesInitialized = new ArrayList<>();
 }

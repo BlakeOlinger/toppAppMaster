@@ -12,14 +12,49 @@ other services
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        Config.isDatabaseInstalled = InitializeDB.checkAndInitializeDB();
+        checkForAndInstallLocalDatabase();
 
+        checkForAndInstallApplicationFileDirectories();
+
+        checkForAndInstallApplicationMicroservices();
+
+
+        if(Config.isDatabaseInstalled &&
+        Config.areServicesInstalled) {
+
+            initializeConfigFiles();
+
+            startApplicationMicroservices();
+
+            // new MasterDaemon().startMasterDaemon();
+        }
+    }
+
+    private static void startApplicationMicroservices() {
+        var microservices = new String[] {
+                "toppApp.jar",
+                "toppAppUpdater.jar",
+                "toppAppDBdaemon.jar"
+        };
+
+        for(String name: microservices)
+            new App(name).startMicroservice();
+    }
+
+    private static void checkForAndInstallApplicationFileDirectories() {
         new AppFileStructure().checkAndInstallFileDirectories();
+    }
 
+    private static void checkForAndInstallLocalDatabase() {
+        Config.isDatabaseInstalled = InitializeDB.checkAndInitializeDB();
+    }
+
+    private static void checkForAndInstallApplicationMicroservices() {
         var sources = new Path[] {
                 Paths.get("toppAppDBdaemon/programFiles/bin/toppApp.jar"),
                 Paths.get("toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar"),
@@ -32,15 +67,27 @@ public class Main {
                 Paths.get("toppAppUpdater.jar")
         };
 
-        Config.servicesInstalled =
+        Config.areServicesInstalled =
                 MicroServicesInstaller.checkAndInstallServices(sources, targets);
+    }
 
-      //   Installer.checkAndInstall();
+     private static void initializeConfigFiles() {
+        var pathBase = "programFiles/config/";
+        var configFilePaths = new ArrayList<Path>();
+        configFilePaths.add(Paths.get(pathBase + "DBdaemon.config"));
+        configFilePaths.add(Paths.get(pathBase + "master.config"));
+        configFilePaths.add(Paths.get(pathBase + "GUI.config"));
+        configFilePaths.add(Paths.get(pathBase + "updater.config"));
 
-       // new InitializeApp().initializeConfigFiles();
+        var commands = new ArrayList<StringBuilder>();
+        commands.add(new StringBuilder("01"));
+        commands.add(new StringBuilder("01"));
+        commands.add(new StringBuilder("0"));
+        commands.add(new StringBuilder("0"));
 
-        // App.startAllServices();
-
-       // new MasterDaemon().startMasterDaemon();
+        for(var i = 0; i < configFilePaths.size(); ++i) {
+            new InitializeApp(configFilePaths.get(i), commands.get(i))
+                    .initializeConfigFile();
+        }
     }
 }

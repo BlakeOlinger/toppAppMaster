@@ -31,8 +31,8 @@ class DBProgramState implements Runnable{
 
         System.out.println(" Sending Kill Command - Database Microservice");
 
-        try (var DBconfig = new FileOutputStream(Config.configFilePath + "DBdaemon.config");
-        var DBconfigRead = new FileInputStream(Config.configFilePath + "DBdaemon.config")) {
+        try (var DBconfig = new FileOutputStream("DBdaemon.config");
+        var DBconfigRead = new FileInputStream( "DBdaemon.config")) {
             char command = '1';
 
             DBconfig.write((int) command);
