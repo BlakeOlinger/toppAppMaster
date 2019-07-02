@@ -1,6 +1,5 @@
 package com.practice;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,7 +33,6 @@ class MasterDaemon implements Runnable{
                 Thread.sleep(2000);
             } while (Config.programState.compareTo("0") == 0);
         } catch (InterruptedException ignore) {
-
         }
 
         new DBProgramState().shutdown();
@@ -50,29 +48,17 @@ class MasterDaemon implements Runnable{
         var path = Paths.get("programFiles/config/master.config");
 
         try {
-            Config.liveUpdateCommandState = Files.readString(path).substring(1, 1);
+            Config.liveUpdateCommandState = Files.readString(path).substring(1, 2);
         } catch (IOException ignore) {
         }
     }
 
     private void checkProgramState() {
+        var path = Paths.get("programFiles/config/master.config");
 
-        try (var configFile = new FileInputStream( "master.config")){
-            int readByte;
-            int index = 0;
-            do {
-                readByte = configFile.read();
-
-                if (readByte != -1) {
-                    for (; index < 1; ++index) {
-                        Config.programState = String.valueOf((char) readByte);
-                    }
-                }
-
-            } while (readByte != -1);
-
+        try {
+            Config.programState = Files.readString(path).substring(0,1);
         } catch (IOException ignore) {
-
         }
     }
 }

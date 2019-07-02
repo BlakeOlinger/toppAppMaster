@@ -1,8 +1,8 @@
 package com.practice;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 class DBProgramState implements Runnable{
     private final Thread thread;
@@ -15,40 +15,13 @@ class DBProgramState implements Runnable{
         thread.start();
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>checkAndInitializeDB</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>checkAndInitializeDB</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
     @Override
     public void run() {
+        var path = Paths.get("programFiles/config/DBdaemon.config");
 
-        System.out.println(" Sending Kill Command - Database Microservice");
-
-        try (var DBconfig = new FileOutputStream("DBdaemon.config");
-        var DBconfigRead = new FileInputStream( "DBdaemon.config")) {
-            char command = '1';
-
-            DBconfig.write((int) command);
-            DBconfig.write((int) command);
-
-            int byteRead = DBconfigRead.read();
-
-            if(String.valueOf((char) byteRead).compareTo("1") == 0) {
-                System.out.println(" Database Microservice Config File Updated with Kill Command - Success");
-            } else {
-                System.out.println(" ERROR: Could Not Send Database Microservice Kill Command");
-            }
-
+        try {
+            Files.writeString(path,"11");
         } catch (IOException ignore) {
         }
-
-
     }
 }

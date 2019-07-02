@@ -1,7 +1,8 @@
 package com.practice;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 class GUIProgramState implements Runnable{
     private final Thread thread;
@@ -14,29 +15,13 @@ class GUIProgramState implements Runnable{
         thread.start();
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>checkAndInitializeDB</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>checkAndInitializeDB</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
     @Override
     public void run() {
-        System.out.println(" Sending Kill Command to GUI Microservice");
+        var path = Paths.get("programFiles/config/GUI.config");
 
-        var GUIconfigPath = "programFiles/config/GUI.config";
-
-        try (var GUIconfig = new FileOutputStream(GUIconfigPath)) {
-            var command = (int) '1';
-
-            GUIconfig.write(command);
+        try {
+            Files.writeString(path,"0");
         } catch (IOException ignore) {
-            System.out.println(" ERROR: Could Not Write GUI Config Command");
         }
     }
 }

@@ -30,8 +30,12 @@ public class Main {
 
             startApplicationMicroservices();
 
-            // new MasterDaemon().startMasterDaemon();
+            startMasterDaemon();
         }
+    }
+
+    private static void startMasterDaemon() {
+        new MasterDaemon().startMasterDaemon();
     }
 
     private static void startApplicationMicroservices() {

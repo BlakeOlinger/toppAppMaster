@@ -20,7 +20,7 @@ public class UpdaterProgramState implements Runnable{
         var path = Paths.get("programFiles/config/updater.config");
 
         try {
-            Files.writeString(path, new StringBuilder("1"));
+            Files.writeString(path,"1");
         } catch (IOException ignore) {
         }
     }
