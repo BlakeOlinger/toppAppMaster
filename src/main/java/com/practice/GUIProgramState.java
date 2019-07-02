@@ -20,7 +20,7 @@ class GUIProgramState implements Runnable{
         var path = Paths.get("programFiles/config/GUI.config");
 
         try {
-            Files.writeString(path,"0");
+            Files.writeString(path,"1");
         } catch (IOException ignore) {
         }
     }

@@ -1,6 +1,9 @@
 package com.practice;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 class AppFileStructure implements Runnable{
     private final Thread thread;
@@ -29,6 +32,16 @@ class AppFileStructure implements Runnable{
 
         if(!blempDirectory.exists()) {
             blempDirectory.mkdirs();
+        }
+
+        var blempConfig = Paths.get("programFiles/blemp/config.blemp");
+        var sourceBlemp = "toppAppDBdaemon/programFiles/blemp/";
+
+        if(!Files.exists(blempConfig)) {
+            try {
+                Files.copy(Paths.get(sourceBlemp + "config.blemp"), blempConfig);
+            } catch (IOException ignore) {
+            }
         }
     }
 }
