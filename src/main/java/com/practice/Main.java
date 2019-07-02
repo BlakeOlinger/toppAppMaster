@@ -23,9 +23,8 @@ public class Main {
 
         checkForAndInstallApplicationMicroservices();
 
-
         if(Config.isDatabaseInstalled &&
-        Config.areServicesInstalled) {
+        !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
             initializeConfigFiles();
 
@@ -67,8 +66,8 @@ public class Main {
                 Paths.get("toppAppUpdater.jar")
         };
 
-        Config.areServicesInstalled =
-                MicroServicesInstaller.checkAndInstallServices(sources, targets);
+        for(var i = 0; i < sources.length; ++i)
+            new MicroServicesInstaller(sources[i], targets[i]).install();
     }
 
      private static void initializeConfigFiles() {

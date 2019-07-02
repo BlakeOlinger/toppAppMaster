@@ -37,7 +37,7 @@ class MicroServicesInstallerTest {
                 Files.createTempFile("test", "targetTwo")
         };
 
-        assertTrue(MicroServicesInstaller.checkAndInstallServices(sources, targets));
+        assertTrue(MicroServicesInstaller.checkAndInstallService(sources, targets));
 
         for(Path file: sources) {
             Files.delete(file);
