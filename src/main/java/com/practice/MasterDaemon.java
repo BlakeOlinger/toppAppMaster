@@ -41,7 +41,6 @@ class MasterDaemon implements Runnable{
 
         new GUIProgramState().shutdown();
 
-        // new SWdaemonState().shutdown();
     }
 
     private void checkLiveUpdateCommandState() {

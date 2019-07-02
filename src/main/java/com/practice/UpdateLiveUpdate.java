@@ -33,7 +33,7 @@ class UpdateLiveUpdate implements Runnable {
         var liveUpdateConfigPath = Paths.get("programFiles/config/updater.config");
 
         try {
-            Files.writeString(liveUpdateConfigPath, new StringBuilder("0"));
+            Files.writeString(liveUpdateConfigPath,"0");
         } catch (IOException ignore) {
         }
 
@@ -42,7 +42,7 @@ class UpdateLiveUpdate implements Runnable {
         var masterConfigPath = Paths.get("programFiles/config/master.config");
 
         try {
-            Files.writeString(masterConfigPath, new StringBuilder("01"));
+            Files.writeString(masterConfigPath,"01");
         } catch (IOException ignore) {
         }
 
