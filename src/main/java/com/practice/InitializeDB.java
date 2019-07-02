@@ -3,21 +3,21 @@ package com.practice;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// TODO - instead of console out or file logs - utilize full unit and integration tests
 class InitializeDB {
 
-    static void checkAndInitializeDB() {
+    static boolean checkAndInitializeDB() {
 
         var databasePath = Paths.get("toppAppDBdaemon/.git");
 
-        if(!hasLocalDatabase(databasePath) &&
+        if(!Files.exists(databasePath) &&
         hasNetworkConnection()) {
             downloadRemoteDatabase();
-        }
 
+            return Files.exists(databasePath);
+        } else
+            return Files.exists(databasePath);
         }
 
     static void downloadRemoteDatabase() {
@@ -27,9 +27,9 @@ class InitializeDB {
             gitCloneProcess.waitFor();
 
             gitCloneProcess.destroy();
+
         } catch (IOException | InterruptedException ignore) {
         }
-
 
     }
 
@@ -39,10 +39,6 @@ class InitializeDB {
         } catch (IOException ignore) {
             return false;
         }
-    }
-
-    static boolean hasLocalDatabase(Path databasePath) {
-        return Files.exists(databasePath);
     }
 
 }

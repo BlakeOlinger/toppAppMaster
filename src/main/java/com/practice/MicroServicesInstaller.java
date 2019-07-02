@@ -1,66 +1,37 @@
 package com.practice;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 class MicroServicesInstaller {
 
-    private static void run() {
-        var toppAppDBPath = "toppAppDBdaemon/programFiles/bin/toppApp.jar";
-        var GUIinstallFile = "toppApp.jar";
+     static boolean checkAndInstallServices(@NotNull Path[] sources, @NotNull Path[] targets) {
+         if(sources.length == targets.length) {
+             var installedList = new ArrayList<Boolean>();
 
-        var DBdaemonDBpath = "toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar";
-        var DBinstallFile = "toppAppDBdaemon.jar";
+             for(var i = 0; i < sources.length; ++i) {
+                 installedList.add(install(sources[i], targets[i]));
+             }
 
-        var updaterDBPath = "toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar";
-        var updaterInstallFile = "toppAppUpdater.jar";
-
-        System.out.println(" Checking Installed Microservices...");
-
-        if(new File(GUIinstallFile).exists()) {
-            System.out.println(" Microservices Installed");
-        } else {
-            installMicroservice(toppAppDBPath, GUIinstallFile, "GUI");
-
-            installMicroservice(DBdaemonDBpath, DBinstallFile, "Database");
-
-            installMicroservice(updaterDBPath, updaterInstallFile, "Live Update");
-        }
-    }
-
-    static void checkAndInstallServices() {
-        run();
-    }
-
-    private static void copyFiles(String original, String copy) {
-
-        try (var originalFile = new FileInputStream(original);
-             var copyFile = new FileOutputStream(copy)){
-            int readByte;
-            do {
-                readByte = originalFile.read();
-                if(readByte != -1) {
-                    copyFile.write(readByte);
-                }
-            } while (readByte != -1);
-
-        } catch (IOException ignore) {
-        }
+             return !installedList.contains(Boolean.FALSE);
+         } else
+             return false;
 
     }
 
-    private static void installMicroservice(String original, String copy, String microservice) {
-        if(!new File(copy).exists()) {
-            System.out.println(" TOPP App: " + microservice + " Microservice Not Installed - Installing...");
-            copyFiles(original, copy);
-            if (new File(copy).exists()) {
-                System.out.println(" TOPP App: " + microservice + " Microservice Installed ");
-            } else {
-                System.out.println(" ERROR: TOPP App: " + microservice +  " Microservice Was Not Installed");
-                ++Config.errorCount;
-            }
-        }
+    static boolean install(Path source, Path target) {
+         if(!Files.exists(target)) {
+             try {
+                 Files.copy(source, target);
+             } catch (IOException ignore) {
+             }
+             return Files.exists(target);
+         } else
+             return true;
     }
+
 }

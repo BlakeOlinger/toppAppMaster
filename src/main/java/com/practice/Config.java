@@ -5,4 +5,6 @@ class Config {
     static String configFilePath = "programFiles/config/";
     static int errorCount = 0;
     static String liveUpdateCommandState = "1";
+    static boolean servicesInstalled = false;
+    static boolean isDatabaseInstalled = false;
 }
