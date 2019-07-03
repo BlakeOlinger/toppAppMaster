@@ -81,12 +81,14 @@ public class Main {
         configFilePaths.add(Paths.get(pathBase + "master.config"));
         configFilePaths.add(Paths.get(pathBase + "GUI.config"));
         configFilePaths.add(Paths.get(pathBase + "updater.config"));
+        configFilePaths.add(Paths.get(pathBase + "SWmicroservice.config"));
 
-        var commands = new ArrayList<StringBuilder>();
-        commands.add(new StringBuilder("01"));
-        commands.add(new StringBuilder("01"));
-        commands.add(new StringBuilder("0"));
-        commands.add(new StringBuilder("0"));
+        var commands = new ArrayList<String>();
+        commands.add("01");
+        commands.add("01");
+        commands.add("0");
+        commands.add("0");
+        commands.add("0");
 
         for(var i = 0; i < configFilePaths.size(); ++i) {
             new InitializeApp(configFilePaths.get(i), commands.get(i))
