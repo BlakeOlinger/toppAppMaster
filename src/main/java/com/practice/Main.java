@@ -42,7 +42,8 @@ public class Main {
         var microservices = new String[] {
                 "toppApp.jar",
                 "toppAppUpdater.jar",
-                "toppAppDBdaemon.jar"
+                "toppAppDBdaemon.jar",
+                "sw-part-auto-test.exe"
         };
 
         for(String name: microservices)
