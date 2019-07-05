@@ -18,7 +18,7 @@ class UpdateLiveUpdate implements Runnable {
 
     @Override
     public void run() {
-        new UpdaterProgramState().shutdown();
+        new UpdaterProgramState().thread.start();
 
         var targetOne = Paths.get("programFiles/bin/currentVersion/toppAppUpdater.jar");
         var targetTwo = Paths.get("toppAppUpdater.jar");
