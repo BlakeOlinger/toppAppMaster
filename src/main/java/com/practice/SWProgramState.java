@@ -5,14 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class SWProgramState implements Runnable{
-    private static Thread thread;
+    final Thread thread;
 
     SWProgramState() {
         thread = new Thread(this, "SW Kill Command");
-    }
-
-    void shutdown() {
-        thread.start();
     }
 
     @Override

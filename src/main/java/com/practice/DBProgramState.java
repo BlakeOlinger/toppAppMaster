@@ -5,14 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class DBProgramState implements Runnable{
-    private final Thread thread;
+    final Thread thread;
 
     DBProgramState() {
         thread = new Thread(this, "DB Daemon Kill");
-    }
-
-    void shutdown() {
-        thread.start();
     }
 
     @Override

@@ -5,14 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class UpdaterProgramState implements Runnable{
-    private final Thread thread;
+    final Thread thread;
 
     UpdaterProgramState() {
         thread = new Thread(this, "Updater Program Kill");
-    }
-
-    void shutdown () {
-        thread.start();
     }
 
     @Override

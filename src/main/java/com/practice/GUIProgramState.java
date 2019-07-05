@@ -5,14 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class GUIProgramState implements Runnable{
-    private final Thread thread;
+    final Thread thread;
 
     GUIProgramState() {
         thread = new Thread(this, "GUI Kill Command");
-    }
-
-    void shutdown() {
-        thread.start();
     }
 
     @Override

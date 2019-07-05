@@ -35,13 +35,29 @@ class MasterDaemon implements Runnable{
         } catch (InterruptedException ignore) {
         }
 
-        new DBProgramState().shutdown();
+        var DBprocess = new DBProgramState();
+        DBprocess.thread.start();
 
-        new UpdaterProgramState().shutdown();
+        var updaterProcess = new UpdaterProgramState();
+        updaterProcess.thread.start();
 
-        new GUIProgramState().shutdown();
+        var GUIprocess =  new GUIProgramState();
+        GUIprocess.thread.start();
 
-        new SWProgramState().shutdown();
+        var SWMSprocess = new SWProgramState();
+        SWMSprocess.thread.start();
+
+        try {
+            DBprocess.thread.join();
+
+            updaterProcess.thread.join();
+
+            GUIprocess.thread.join();
+
+            SWMSprocess.thread.join();
+        } catch (Exception ignore) {
+
+        }
     }
 
     private void checkLiveUpdateCommandState() {
