@@ -14,6 +14,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+// FIXME - spawing infinite GUI mircorsevices
+//  - SW MS works fine in isolation - doesn't work with cluster
+//  - reads and applies change to SW part once then stops responding
+//  - this doesn't happen when testing by itself
+//  - the infintie gGUI spawn may be a bug in the Updater MS
+//  - SW MS doesn't close consistently when clsoing bvia GUI
+//  - closing consistently each time testing by itself
 public class Main {
 
     public static void main(String[] args) {
