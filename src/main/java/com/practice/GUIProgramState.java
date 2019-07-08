@@ -1,23 +1,35 @@
 package com.practice;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
-class GUIProgramState implements Runnable{
-    final Thread thread;
+class GUIProgramState extends DBProgramState{
 
-    GUIProgramState() {
-        thread = new Thread(this, "GUI Kill Command");
+    GUIProgramState(Path path) {
+        super(path);
+    }
+
+    @Override
+    void shutdown() {
+        super.shutdown();
+    }
+
+    @Override
+    void join() {
+        super.join();
     }
 
     @Override
     public void run() {
-        var path = Paths.get("programFiles/config/GUI.config");
+        super.run();
+    }
 
-        try {
-            Files.writeString(path,"1");
-        } catch (IOException ignore) {
-        }
+    @Override
+    void checkDBState() {
+        super.checkDBState();
+    }
+
+    @Override
+    String getState() {
+        return super.getState();
     }
 }

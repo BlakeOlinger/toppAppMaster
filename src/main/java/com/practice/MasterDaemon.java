@@ -36,12 +36,9 @@ class MasterDaemon implements Runnable{
         try {
             do {
 
-                // TODO - change to separate thread/proces
-                //  - check for file state to see if accessible
-                //  - or not since it's immediately outdated
-                //  - do so for programState as well
                 checkLiveUpdateCommandState();
 
+                // Live Update Microservice Updater
 //                if(Config.liveUpdateCommandState.compareTo("0") == 0) {
 //                    new UpdateLiveUpdate().update();
 //                }

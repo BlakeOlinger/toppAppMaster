@@ -32,12 +32,24 @@ public class Main {
         if(Config.isDatabaseInstalled &&
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
-            initializeConfigFiles();
+          //  initializeConfigFiles();
 
             startApplicationMicroservices();
 
             startMasterDaemon();
         }
+
+        shutdownLocalDatabase();
+    }
+
+    static void shutdownLocalDatabase() {
+        var dbPath = Paths.get("programFiles/config/DBdaemon.config");
+
+        var DBShutdown = new DBProgramState(dbPath);
+
+        DBShutdown.shutdown();
+
+        DBShutdown.join();
 
         logger.log(Level.INFO, "Main Thread - Exit");
     }
@@ -53,23 +65,20 @@ public class Main {
     private static void startApplicationMicroservices() {
         logger.log(Level.INFO, "Microservices Threads - Start");
 
-        var microservices = new String[] {
-                "toppApp.jar",
-                "toppAppUpdater.jar",
-                "toppAppDBdaemon.jar"
-              //  "sw-part-auto-test.exe"
-        };
-
-        var apps = new ArrayList<App>();
-
-        for(String name: microservices)
-           apps.add(new App(name));
-
-        for(App app : apps)
-            app.startMicroservice();
-
+//        var microservices = new String[] {
+//                "toppApp.jar",
+//                "toppAppUpdater.jar",
+//                "toppAppDBdaemon.jar",
+//                "sw-part-auto-test.exe"
+//        };
+//
+//        var apps = new ArrayList<App>();
+//
+//        for(String name: microservices)
+//           apps.add(new App(name));
+//
 //        for(App app : apps)
-//            app.join();
+//            app.startMicroservice();
 
         logger.log(Level.INFO, "Microservice Threads - Exit");
     }
