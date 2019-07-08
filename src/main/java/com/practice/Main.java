@@ -83,7 +83,7 @@ public class Main {
                 "toppApp.jar",
                 "toppAppUpdater.jar",
                 "toppAppDBdaemon.jar",
-                "sw-part-auto-test.exe"
+               "sw-part-auto-test.exe"
         };
 
         var apps = new ArrayList<App>();
