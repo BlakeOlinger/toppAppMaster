@@ -13,10 +13,16 @@ other services
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
+    private static final Logger logger =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public static void main(String[] args) {
+        logger.log(Level.INFO, "Main Thread - Start");
+
         checkForAndInstallLocalDatabase();
 
         checkForAndInstallApplicationFileDirectories();
@@ -28,40 +34,68 @@ public class Main {
 
             initializeConfigFiles();
 
-          //  startApplicationMicroservices();
+            startApplicationMicroservices();
 
-          //  startMasterDaemon();
+            startMasterDaemon();
         }
+
+        logger.log(Level.INFO, "Main Thread - Exit");
     }
 
     private static void startMasterDaemon() {
-        new MasterDaemon().startMasterDaemon();
+        var daemon = new MasterDaemon();
+
+        daemon.startMasterDaemon();
+
+        daemon.join();
     }
 
     private static void startApplicationMicroservices() {
+        logger.log(Level.INFO, "Microservices Threads - Start");
+
         var microservices = new String[] {
                 "toppApp.jar",
                 "toppAppUpdater.jar",
-                "toppAppDBdaemon.jar",
-                "sw-part-auto-test.exe"
+                "toppAppDBdaemon.jar"
+              //  "sw-part-auto-test.exe"
         };
 
+        var apps = new ArrayList<App>();
+
         for(String name: microservices)
-            new App(name).startMicroservice();
+           apps.add(new App(name));
+
+        for(App app : apps)
+            app.startMicroservice();
+
+//        for(App app : apps)
+//            app.join();
+
+        logger.log(Level.INFO, "Microservice Threads - Exit");
     }
 
     private static void checkForAndInstallApplicationFileDirectories() {
+        logger.log(Level.INFO, "Install App Directories - Start");
+
         var appFiles = new AppFileStructure();
         appFiles.checkAndInstallFileDirectories();
 
         appFiles.join();
+
+        logger.log(Level.INFO, "Install App Directories - Exit");
     }
 
     private static void checkForAndInstallLocalDatabase() {
+        logger.log(Level.INFO, "Initializing Local Database - Start");
+
         Config.isDatabaseInstalled = InitializeDB.checkAndInitializeDB();
+
+        logger.log(Level.INFO, "Initializing Local Database - Exit");
     }
 
     private static void checkForAndInstallApplicationMicroservices() {
+        logger.log(Level.INFO, "Install App Microservices - Start");
+
         var sources = new Path[] {
                 Paths.get("toppAppDBdaemon/programFiles/bin/toppApp.jar"),
                 Paths.get("toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar"),
@@ -84,9 +118,13 @@ public class Main {
 
         for(MicroServicesInstaller servicesInstaller : microservices)
             servicesInstaller.join();
+
+        logger.log(Level.INFO, "Install App Microservices - Exit");
     }
 
      private static void initializeConfigFiles() {
+        logger.log(Level.INFO, "Initialize Config Files - Start");
+
         var pathBase = "programFiles/config/";
         var configFilePaths = new ArrayList<Path>();
         configFilePaths.add(Paths.get(pathBase + "DBdaemon.config"));
@@ -95,7 +133,7 @@ public class Main {
         configFilePaths.add(Paths.get(pathBase + "updater.config"));
         configFilePaths.add(Paths.get(pathBase + "SWmicroservice.config"));
 
-        var commands = "010";
+        var commands = "01";
 
         var initList = new ArrayList<InitializeApp>();
 
@@ -111,5 +149,6 @@ public class Main {
              app.join();
          }
 
+         logger.log(Level.INFO, "Initialize Config Files - Exit");
     }
 }
