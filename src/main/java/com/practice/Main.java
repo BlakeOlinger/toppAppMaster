@@ -14,13 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-// FIXME - spawing infinite GUI mircorsevices
-//  - SW MS works fine in isolation - doesn't work with cluster
-//  - reads and applies change to SW part once then stops responding
-//  - this doesn't happen when testing by itself
-//  - the infintie gGUI spawn may be a bug in the Updater MS
-//  - SW MS doesn't close consistently when clsoing bvia GUI
-//  - closing consistently each time testing by itself
 public class Main {
 
     public static void main(String[] args) {
@@ -35,9 +28,9 @@ public class Main {
 
             initializeConfigFiles();
 
-            startApplicationMicroservices();
+          //  startApplicationMicroservices();
 
-            startMasterDaemon();
+          //  startMasterDaemon();
         }
     }
 
@@ -58,7 +51,10 @@ public class Main {
     }
 
     private static void checkForAndInstallApplicationFileDirectories() {
-        new AppFileStructure().checkAndInstallFileDirectories();
+        var appFiles = new AppFileStructure();
+        appFiles.checkAndInstallFileDirectories();
+
+        appFiles.join();
     }
 
     private static void checkForAndInstallLocalDatabase() {
@@ -78,8 +74,16 @@ public class Main {
                 Paths.get("toppAppUpdater.jar")
         };
 
+        var microservices = new ArrayList<MicroServicesInstaller>();
+
         for(var i = 0; i < sources.length; ++i)
-            new MicroServicesInstaller(sources[i], targets[i]).install();
+            microservices.add(new MicroServicesInstaller(sources[i], targets[i]));
+
+        for(MicroServicesInstaller servicesInstaller : microservices)
+            servicesInstaller.install();
+
+        for(MicroServicesInstaller servicesInstaller : microservices)
+            servicesInstaller.join();
     }
 
      private static void initializeConfigFiles() {
@@ -91,16 +95,21 @@ public class Main {
         configFilePaths.add(Paths.get(pathBase + "updater.config"));
         configFilePaths.add(Paths.get(pathBase + "SWmicroservice.config"));
 
-        var commands = new ArrayList<String>();
-        commands.add("01");
-        commands.add("01");
-        commands.add("0");
-        commands.add("0");
-        commands.add("0");
+        var commands = "010";
 
-        for(var i = 0; i < configFilePaths.size(); ++i) {
-            new InitializeApp(configFilePaths.get(i), commands.get(i))
-                    .initializeConfigFile();
-        }
+        var initList = new ArrayList<InitializeApp>();
+
+         for (Path configFilePath : configFilePaths) {
+             initList.add(new InitializeApp(configFilePath, commands));
+         }
+
+         for (InitializeApp app : initList) {
+             app.initializeConfigFile();
+         }
+
+         for (InitializeApp app : initList) {
+             app.join();
+         }
+
     }
 }

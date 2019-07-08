@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class AppFileStructure implements Runnable{
     private final Thread thread;
+    private static final Logger logger =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     AppFileStructure() {
         thread = new Thread(this, "File Maker");
@@ -14,6 +18,15 @@ class AppFileStructure implements Runnable{
 
     void checkAndInstallFileDirectories() {
         thread.start();
+    }
+
+    void join() {
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Error waiting for " +
+                    thread.getName() + " to Join", e);
+        }
     }
 
     @Override
@@ -40,7 +53,8 @@ class AppFileStructure implements Runnable{
         if(!Files.exists(blempConfig)) {
             try {
                 Files.copy(Paths.get(sourceBlemp + "config.blemp"), blempConfig);
-            } catch (IOException ignore) {
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Could not copy DB blemp to local", e);
             }
         }
     }

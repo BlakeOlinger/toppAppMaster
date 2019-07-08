@@ -3,11 +3,15 @@ package com.practice;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class MicroServicesInstaller implements Runnable{
     private final Thread thread;
     private final Path source;
     private final Path target;
+    private static final Logger logger =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     MicroServicesInstaller(Path source, Path target) {
         this.source = source;
@@ -17,6 +21,15 @@ class MicroServicesInstaller implements Runnable{
 
     void install() {
          thread.start();
+    }
+
+    void join() {
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Error Could not Join on " +
+                    thread.getName(), e);
+        }
     }
 
     @Override
