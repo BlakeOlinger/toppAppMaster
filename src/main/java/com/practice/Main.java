@@ -32,26 +32,40 @@ public class Main {
         if(Config.isDatabaseInstalled &&
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
-          //  initializeConfigFiles();
+            initializeConfigFiles();
 
             startApplicationMicroservices();
 
             startMasterDaemon();
         }
 
-        shutdownLocalDatabase();
-    }
-
-    static void shutdownLocalDatabase() {
-        var dbPath = Paths.get("programFiles/config/DBdaemon.config");
-
-        var DBShutdown = new DBProgramState(dbPath);
-
-        DBShutdown.shutdown();
-
-        DBShutdown.join();
+        shutdownMicroservices();
 
         logger.log(Level.INFO, "Main Thread - Exit");
+    }
+
+    private static void shutdownMicroservices() {
+        var configRoot = "programFiles/config/";
+        var names = new String[] {
+                "DBdaemon.config",
+                "GUI.config",
+                "master.config",
+                "SWmicroservice.config",
+                "updater.config"
+        };
+        var paths = new ArrayList<Path>();
+        var microservices = new ArrayList<ProgramState>();
+        var index = 0;
+
+        for(String name : names) {
+            paths.add(Paths.get(configRoot + name));
+            microservices.add(new ProgramState(paths.get(index),
+                    name));
+            microservices.get(index++).shutdown();
+        }
+
+        for(ProgramState microservice : microservices)
+            microservice.join();
     }
 
     private static void startMasterDaemon() {

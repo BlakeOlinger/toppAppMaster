@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DBProgramStateTest {
+class ProgramStateTest {
     private final static Path path = Paths.get("test.txt");
 
     @BeforeAll
@@ -27,7 +27,7 @@ class DBProgramStateTest {
 
     @Test
     void return_0_for_01() {
-        var dbTest = new DBProgramState(path);
+        var dbTest = new ProgramState(path, "testService");
         dbTest.checkDBState();
 
         var result = dbTest.getState();

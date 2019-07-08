@@ -6,19 +6,17 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// TODO - all shutdown actions can stem from this class
-//  - no need to have a separate class - just make
-//  separate instances of this - modify by allowing
-//  - a message parameter to indicate different services
-class DBProgramState implements Runnable{
+class ProgramState implements Runnable{
     final Thread thread;
     private final Path path;
     private String state = "1";
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final String serviceName;
 
-    DBProgramState(Path path) {
+    ProgramState(Path path, String serviceName) {
         this.path = path;
+        this.serviceName = serviceName;
         thread = new Thread(this, "DB Daemon Kill");
     }
 
@@ -30,19 +28,21 @@ class DBProgramState implements Runnable{
         try {
             thread.join();
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Error Database Shutdown Join", e);
+            logger.log(Level.SEVERE, "Error" +
+                    serviceName +" Shutdown Join", e);
         }
     }
 
     @Override
     public void run() {
-        logger.log(Level.INFO, "Database Shutdown - Start");
+        logger.log(Level.INFO, serviceName + " Shutdown - Start");
 
         do {
           try {
                 Files.writeString(path, "11");
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "Error Writing Database Config File");
+                logger.log(Level.SEVERE, "Error Writing " +
+                        serviceName + " Config File");
             }
 
             try {
@@ -56,14 +56,15 @@ class DBProgramState implements Runnable{
 
         } while (state.compareTo("0") == 0);
 
-        logger.log(Level.INFO, "Database Shutdown - Exit");
+        logger.log(Level.INFO, serviceName + " Shutdown - Exit");
     }
 
     void checkDBState() {
         try {
             state = Files.readString(path).substring(0, 1);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error Reading DB Config File", e);
+            logger.log(Level.SEVERE, "Error Reading " +
+                    serviceName + " Config File", e);
         }
     }
 
