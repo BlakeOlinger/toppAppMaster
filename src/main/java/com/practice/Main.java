@@ -79,20 +79,20 @@ public class Main {
     private static void startApplicationMicroservices() {
         logger.log(Level.INFO, "Microservices Threads - Start");
 
-//        var microservices = new String[] {
-//                "toppApp.jar",
-//                "toppAppUpdater.jar",
-//                "toppAppDBdaemon.jar",
-//                "sw-part-auto-test.exe"
-//        };
-//
-//        var apps = new ArrayList<App>();
-//
-//        for(String name: microservices)
-//           apps.add(new App(name));
-//
-//        for(App app : apps)
-//            app.startMicroservice();
+        var microservices = new String[] {
+                "toppApp.jar",
+                "toppAppUpdater.jar",
+                "toppAppDBdaemon.jar",
+                "sw-part-auto-test.exe"
+        };
+
+        var apps = new ArrayList<App>();
+
+        for(String name: microservices)
+           apps.add(new App(name));
+
+        for(App app : apps)
+            app.startMicroservice();
 
         logger.log(Level.INFO, "Microservice Threads - Exit");
     }
