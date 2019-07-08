@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
+    static final String userRoot = "C:/Users/bolinger/Desktop/test install/";
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -45,7 +46,7 @@ public class Main {
     }
 
     private static void shutdownMicroservices() {
-        var configRoot = "programFiles/config/";
+        var configRoot = userRoot + "programFiles/config/";
         var names = new String[] {
                 "DBdaemon.config",
                 "GUI.config",
@@ -120,9 +121,9 @@ public class Main {
         logger.log(Level.INFO, "Install App Microservices - Start");
 
         var sources = new Path[] {
-                Paths.get("toppAppDBdaemon/programFiles/bin/toppApp.jar"),
-                Paths.get("toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar"),
-                Paths.get("toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar")
+                Paths.get(userRoot + "toppAppDBdaemon/programFiles/bin/toppApp.jar"),
+                Paths.get(userRoot + "toppAppDBdaemon/programFiles/bin/toppAppDBdaemon.jar"),
+                Paths.get( userRoot + "toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar")
         };
 
         var targets = new Path[] {
@@ -148,7 +149,7 @@ public class Main {
      private static void initializeConfigFiles() {
         logger.log(Level.INFO, "Initialize Config Files - Start");
 
-        var pathBase = "programFiles/config/";
+        var pathBase = userRoot + "programFiles/config/";
         var configFilePaths = new ArrayList<Path>();
         configFilePaths.add(Paths.get(pathBase + "DBdaemon.config"));
         configFilePaths.add(Paths.get(pathBase + "master.config"));

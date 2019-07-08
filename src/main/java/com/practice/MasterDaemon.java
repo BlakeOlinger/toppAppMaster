@@ -55,7 +55,7 @@ class MasterDaemon implements Runnable{
     }
 
     private void checkLiveUpdateCommandState() {
-        var path = Paths.get("programFiles/config/master.config");
+        var path = Paths.get(Main.userRoot + "programFiles/config/master.config");
 
         try {
             Config.liveUpdateCommandState = Files.readString(path).substring(1, 2);
@@ -64,7 +64,7 @@ class MasterDaemon implements Runnable{
     }
 
     private void checkProgramState() {
-        var path = Paths.get("programFiles/config/master.config");
+        var path = Paths.get(Main.userRoot +"programFiles/config/master.config");
 
         try {
             Config.programState = Files.readString(path).substring(0,1);
