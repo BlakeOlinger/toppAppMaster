@@ -16,6 +16,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+// TODO - remove start application microservices classes and uses
+// TODO - add a config file that has the userRoot for the local client
+//  - do this by getting current installation directory and writing that
+//  - to the config file and have all microservices populate their userRoot
+//  - with this info ** When not in a developer environment **
+
 public class Main {
     static final String userRoot = "C:/Users/bolinger/Desktop/test install/";
     private static final Logger logger =
