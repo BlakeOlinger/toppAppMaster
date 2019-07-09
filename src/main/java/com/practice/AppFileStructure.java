@@ -33,6 +33,7 @@ class AppFileStructure implements Runnable{
     public void run() {
         var configPath = new File(Main.userRoot + "programFiles/config/");
         var currentVersion = new File(Main.userRoot + "programFiles/bin/currentVersion/");
+        var swCurrentVersion = new File(Main.userRoot + "programFiles/bin/currentVersion/sw/");
         var blempDirectory = new File(Main.userRoot + "programFiles/blemp/");
         var swDirectory = new File(Main.userRoot + "programFiles/sw/");
 
@@ -50,6 +51,10 @@ class AppFileStructure implements Runnable{
 
         if(!swDirectory.exists()) {
             swDirectory.mkdirs();
+        }
+
+        if(!swCurrentVersion.exists()) {
+            swCurrentVersion.mkdirs();
         }
 
         var blempConfig = Paths.get(Main.userRoot + "programFiles/blemp/config.blemp");
