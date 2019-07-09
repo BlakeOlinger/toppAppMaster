@@ -28,7 +28,9 @@ public class Main {
 
         checkForAndInstallApplicationFileDirectories();
 
-       // checkForAndInstallApplicationMicroservices();
+        checkForAndInstallApplicationMicroservices();
+
+        checkForAndInstallSWMicroservice();
 
         if(Config.isDatabaseInstalled &&
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
@@ -43,6 +45,53 @@ public class Main {
         shutdownMicroservices();
 
         logger.log(Level.INFO, "Main Thread - Exit");
+    }
+
+    private static void checkForAndInstallSWMicroservice() {
+        logger.log(Level.INFO, "SW Installer - Start");
+
+        var targetRoot = userRoot + "programFiles/sw/";
+        var sourceRoot = userRoot + "toppAppDBdaemon/programFiles/sw/";
+        var names = new String[] {
+                "hostfxr.dll",
+                "hostpolicy.dll",
+                "NLog.config",
+                "SolidWorks.Interop.sldworks.dll",
+                "SolidWorks.Interop.swconst.dll",
+                "sw-part-auto-test.deps.json",
+                "sw-part-auto-test.dll",
+                "sw-part-auto-test.exe",
+                "sw-part-auto-test.pdb",
+                "sw-part-auto-test.runtimeconfig.dev.json",
+                "sw-part-auto-test.runtimeconfig.json"
+        };
+        var targetPaths = new ArrayList<Path>();
+        var sourcePaths = new ArrayList<Path>();
+
+        for(String name : names) {
+            targetPaths.add(
+                    Paths.get(targetRoot + name)
+            );
+            sourcePaths.add(
+                    Paths.get(sourceRoot + name)
+            );
+        }
+
+        var swInstaller = new ArrayList<MicroServicesInstaller>();
+
+        for(var i = 0; i < names.length; ++i)
+            swInstaller.add(new MicroServicesInstaller(
+                    sourcePaths.get(i),
+                    targetPaths.get(i)
+            ));
+
+        for(MicroServicesInstaller servicesInstaller : swInstaller)
+            servicesInstaller.install();
+
+        for(MicroServicesInstaller servicesInstaller : swInstaller)
+            servicesInstaller.join();
+
+        logger.log(Level.INFO, "SW Installer - Exit");
     }
 
     private static void shutdownMicroservices() {
