@@ -9,7 +9,7 @@ class InitializeDB {
 
     static boolean checkAndInitializeDB() {
 
-        var databasePath = Paths.get("toppAppDBdaemon/.git");
+        var databasePath = Paths.get(Main.userRoot + "toppAppDBdaemon/.git");
 
         if(!Files.exists(databasePath) &&
         hasNetworkConnection()) {
@@ -22,7 +22,8 @@ class InitializeDB {
 
     static void downloadRemoteDatabase() {
         try {
-            var gitCloneProcess = new ProcessBuilder("cmd.exe", "/c", "git", "clone",
+            var gitCloneProcess = new ProcessBuilder("cmd.exe", "/c", "cd",
+                    Main.userRoot, "&&", "git", "clone",
                     "https://github.com/BlakeOlinger/toppAppDBdaemon.git").start();
             gitCloneProcess.waitFor();
 

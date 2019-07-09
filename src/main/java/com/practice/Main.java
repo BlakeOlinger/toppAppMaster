@@ -81,10 +81,10 @@ public class Main {
         logger.log(Level.INFO, "Microservices Threads - Start");
 
         var microservices = new String[] {
-                "toppApp.jar",
-                "toppAppUpdater.jar",
-                "toppAppDBdaemon.jar",
-               "sw-part-auto-test.exe"
+               userRoot + "toppApp.jar",
+                userRoot + "toppAppUpdater.jar",
+                userRoot + "toppAppDBdaemon.jar",
+               userRoot + "sw-part-auto-test.exe"
         };
 
         var apps = new ArrayList<App>();
