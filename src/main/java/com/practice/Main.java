@@ -28,14 +28,14 @@ public class Main {
 
         checkForAndInstallApplicationFileDirectories();
 
-        checkForAndInstallApplicationMicroservices();
+       // checkForAndInstallApplicationMicroservices();
 
         if(Config.isDatabaseInstalled &&
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
             initializeConfigFiles();
 
-            startApplicationMicroservices();
+          //  startApplicationMicroservices();
 
             startMasterDaemon();
         }
@@ -127,9 +127,9 @@ public class Main {
         };
 
         var targets = new Path[] {
-                Paths.get("toppApp.jar"),
-                Paths.get("toppAppDBdaemon.jar"),
-                Paths.get("toppAppUpdater.jar")
+                Paths.get(userRoot + "toppApp.jar"),
+                Paths.get(userRoot + "toppAppDBdaemon.jar"),
+                Paths.get(userRoot + "toppAppUpdater.jar")
         };
 
         var microservices = new ArrayList<MicroServicesInstaller>();
