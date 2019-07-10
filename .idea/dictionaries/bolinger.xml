@@ -5,6 +5,8 @@
       <w>blemp</w>
       <w>bname</w>
       <w>bprocess</w>
+      <w>hostfxr</w>
+      <w>hostpolicy</w>
       <w>iname</w>
       <w>inet</w>
       <w>initalaizer</w>
@@ -14,7 +16,10 @@
       <w>microservices</w>
       <w>multithreaded</w>
       <w>rreturn</w>
+      <w>runtimeconfig</w>
+      <w>sldworks</w>
       <w>sprocess</w>
+      <w>swconst</w>
       <w>topp</w>
       <w>wconfig</w>
       <w>wdaemon</w>

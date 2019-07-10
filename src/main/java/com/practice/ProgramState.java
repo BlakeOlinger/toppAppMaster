@@ -39,7 +39,7 @@ class ProgramState implements Runnable{
 
         do {
           try {
-                Files.writeString(path, "11");
+                Files.writeString(path, "111");
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error Writing " +
                         serviceName + " Config File");
