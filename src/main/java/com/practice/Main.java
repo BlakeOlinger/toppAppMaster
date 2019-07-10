@@ -50,7 +50,7 @@ public class Main {
     }
 
     private static void checkForAndInstallToppAppBat() {
-        var target = Paths.get("ToppApp.bat");
+        var target = Paths.get(userRoot + "ToppApp.bat");
         var source = Paths.get(userRoot
                 + "toppAppDBdaemon/programFiles/ToppApp.bat");
         if (!Files.exists(target)) {
@@ -156,7 +156,11 @@ public class Main {
     private static void checkForAndInstallLocalDatabase() {
         logger.log(Level.INFO, "Initializing Local Database - Start");
 
-        Config.isDatabaseInstalled = InitializeDB.checkAndInitializeDB();
+        if (InternetCheck.isConnected())
+            Config.isDatabaseInstalled = InitializeDB.checkAndInitializeDB();
+        else
+            logger.log(Level.SEVERE, "Error Could Not Install Local Database Instance" +
+                    " - No Network Connection Detected");
 
         logger.log(Level.INFO, "Initializing Local Database - Exit");
     }
