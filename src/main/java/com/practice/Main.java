@@ -10,6 +10,8 @@ this will receive commands via the master.config file and issue out as needed to
 other services
  */
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class Main {
 
         checkForAndInstallSWMicroservice();
 
+        checkForAndInstallToppAppBat();
+
         if(Config.isDatabaseInstalled &&
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
@@ -43,6 +47,20 @@ public class Main {
         shutdownMicroservices();
 
         logger.log(Level.INFO, "Main Thread - Exit");
+    }
+
+    private static void checkForAndInstallToppAppBat() {
+        var target = Paths.get("ToppApp.bat");
+        var source = Paths.get(userRoot
+                + "toppAppDBdaemon/programFiles/ToppApp.bat");
+        if (!Files.exists(target)) {
+            try {
+                Files.copy(source, target);
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Error Copying ToppApp.bat to EXE Directory",
+                        e);
+            }
+        }
     }
 
     private static void checkForAndInstallSWMicroservice() {
