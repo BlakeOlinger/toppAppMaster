@@ -31,6 +31,11 @@ class UpdateLiveUpdate implements Runnable {
 
         killLiveUpdate.join();
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ignore) {
+        }
+
         var targetOne = Paths.get(Main.userRoot
                 + "programFiles/bin/currentVersion/toppAppUpdater.jar");
         var targetTwo = Paths.get(Main.userRoot
@@ -48,7 +53,7 @@ class UpdateLiveUpdate implements Runnable {
                 + "programFiles/config/updater.config");
 
         try {
-            Files.writeString(liveUpdateConfigPath,"0");
+            Files.writeString(liveUpdateConfigPath,"000");
         } catch (IOException ignore) {
         }
 
@@ -56,7 +61,6 @@ class UpdateLiveUpdate implements Runnable {
                 + "toppAppDBdaemon/programFiles/bat/toppAppUpdater.bat";
 
         try {
-            Thread.sleep(3000);
 
             var process = new ProcessBuilder("cmd.exe", "/c",
                     updaterStartBat).start();
@@ -72,7 +76,7 @@ class UpdateLiveUpdate implements Runnable {
                 + "programFiles/config/master.config");
 
         try {
-            Files.writeString(masterConfigPath,"01");
+            Files.writeString(masterConfigPath,"011");
         } catch (IOException ignore) {
         }
 

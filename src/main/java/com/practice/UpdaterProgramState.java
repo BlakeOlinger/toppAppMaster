@@ -28,7 +28,7 @@ public class UpdaterProgramState implements Runnable{
                 + "programFiles/config/updater.config");
 
         try {
-            Files.writeString(path,"1");
+            Files.writeString(path,"111");
         } catch (IOException ignore) {
         }
     }
