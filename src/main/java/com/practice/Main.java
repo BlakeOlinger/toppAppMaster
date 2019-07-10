@@ -205,7 +205,7 @@ public class Main {
         configFilePaths.add(Paths.get(pathBase + "updater.config"));
         configFilePaths.add(Paths.get(pathBase + "SWmicroservice.config"));
 
-        var commands = "01";
+        var commands = "011";
 
         var initList = new ArrayList<InitializeApp>();
 
