@@ -12,4 +12,5 @@ class Config {
     static ArrayList<Boolean> areAppConfigFilesInitialized = new ArrayList<>();
     static final Path MASTER_CONFIG_PATH =
             Paths.get(Main.userRoot + "programFiles/config/master.config");
+    static boolean isMasterUpdate = false;
 }

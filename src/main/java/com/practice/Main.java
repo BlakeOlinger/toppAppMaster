@@ -27,6 +27,7 @@ public class Main {
         logger.log(Level.INFO, "Main Thread - Start");
 
         checkForAndInstallLocalDatabase();
+        System.out.println("hello change");
 
         checkForAndInstallApplicationFileDirectories();
 
@@ -44,7 +45,8 @@ public class Main {
             startMasterDaemon();
         }
 
-        shutdownMicroservices();
+        if (!Config.isMasterUpdate)
+            shutdownMicroservices();
 
         logger.log(Level.INFO, "Main Thread - Exit");
     }

@@ -42,6 +42,8 @@ class MasterDaemon implements Runnable{
                     logger.log(Level.INFO,
                             "Daemon - Checking for Live Update Update Command - Start");
 
+                    checkForMasterUpdate();
+
                     checkLiveUpdateCommandState(
                             Config.MASTER_CONFIG_PATH
                     );
@@ -72,12 +74,23 @@ class MasterDaemon implements Runnable{
                 );
 
                 Thread.sleep(2000);
-            } while (Config.programState.compareTo("0") == 0);
+            } while (Config.programState.compareTo("0") == 0 &&
+            !Config.isMasterUpdate);
         } catch (InterruptedException e) {
             logger.log(Level.INFO, "Error Daemon Thread Interrupted", e);
         }
 
         logger.log(Level.INFO, "Daemon - Exit");
+    }
+
+    private void checkForMasterUpdate() {
+        try {
+            Config.isMasterUpdate = Files.readString(
+                    Config.MASTER_CONFIG_PATH
+            ).substring(2, 3).compareTo("0") == 0;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error Could Not Read Master Config File", e);
+        }
     }
 
     void checkLiveUpdateCommandState(Path masterConfig) {
