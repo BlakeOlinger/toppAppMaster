@@ -27,7 +27,6 @@ public class Main {
         logger.log(Level.INFO, "Main Thread - Start");
 
         checkForAndInstallLocalDatabase();
-        System.out.println("hello change");
 
         checkForAndInstallApplicationFileDirectories();
 
