@@ -5,15 +5,27 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class UpdaterProgramState implements Runnable{
-    final Thread thread;
+    private final Thread thread;
 
     UpdaterProgramState() {
         thread = new Thread(this, "Updater Program Kill");
     }
 
+    void shutdown() {
+        thread.start();
+    }
+
+    void join() {
+        try {
+            thread.join();
+        } catch (InterruptedException ignore) {
+        }
+    }
+
     @Override
     public void run() {
-        var path = Paths.get("programFiles/config/updater.config");
+        var path = Paths.get(Main.userRoot
+                + "programFiles/config/updater.config");
 
         try {
             Files.writeString(path,"1");

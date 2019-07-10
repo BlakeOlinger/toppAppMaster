@@ -16,12 +16,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// TODO - remove start application microservices classes and uses
-// TODO - add a config file that has the userRoot for the local client
-//  - do this by getting current installation directory and writing that
-//  - to the config file and have all microservices populate their userRoot
-//  - with this info ** When not in a developer environment **
-
 public class Main {
     static final String userRoot = "C:/Users/bolinger/Desktop/test install/";
     private static final Logger logger =
@@ -42,8 +36,6 @@ public class Main {
         !Config.areServicesInstalled.contains(Boolean.FALSE)) {
 
             initializeConfigFiles();
-
-          //  startApplicationMicroservices();
 
             startMasterDaemon();
         }
@@ -130,27 +122,6 @@ public class Main {
         daemon.startMasterDaemon();
 
         daemon.join();
-    }
-
-    private static void startApplicationMicroservices() {
-        logger.log(Level.INFO, "Microservices Threads - Start");
-
-        var microservices = new String[] {
-               userRoot + "toppApp.jar",
-                userRoot + "toppAppUpdater.jar",
-                userRoot + "toppAppDBdaemon.jar",
-               userRoot + "sw-part-auto-test.exe"
-        };
-
-        var apps = new ArrayList<App>();
-
-        for(String name: microservices)
-           apps.add(new App(name));
-
-        for(App app : apps)
-            app.startMicroservice();
-
-        logger.log(Level.INFO, "Microservice Threads - Exit");
     }
 
     private static void checkForAndInstallApplicationFileDirectories() {

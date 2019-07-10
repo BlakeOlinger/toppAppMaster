@@ -16,13 +16,27 @@ class UpdateLiveUpdate implements Runnable {
         thread.start();
     }
 
+    void join() {
+        try {
+            thread.join();
+        } catch (InterruptedException ignore) {
+        }
+    }
+
     @Override
     public void run() {
-        new UpdaterProgramState().thread.start();
+        var killLiveUpdate = new UpdaterProgramState();
 
-        var targetOne = Paths.get("programFiles/bin/currentVersion/toppAppUpdater.jar");
-        var targetTwo = Paths.get("toppAppUpdater.jar");
-        var source = Paths.get("toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar");
+        killLiveUpdate.shutdown();
+
+        killLiveUpdate.join();
+
+        var targetOne = Paths.get(Main.userRoot
+                + "programFiles/bin/currentVersion/toppAppUpdater.jar");
+        var targetTwo = Paths.get(Main.userRoot
+                + "toppAppUpdater.jar");
+        var source = Paths.get(Main.userRoot
+                + "toppAppDBdaemon/programFiles/bin/toppAppUpdater.jar");
 
         try {
             Files.copy(source, targetOne, StandardCopyOption.REPLACE_EXISTING);
@@ -30,16 +44,32 @@ class UpdateLiveUpdate implements Runnable {
         } catch (IOException ignore) {
         }
 
-        var liveUpdateConfigPath = Paths.get("programFiles/config/updater.config");
+        var liveUpdateConfigPath = Paths.get(Main.userRoot
+                + "programFiles/config/updater.config");
 
         try {
             Files.writeString(liveUpdateConfigPath,"0");
         } catch (IOException ignore) {
         }
 
-        new App("toppAppUpdater.jar").startMicroservice();
+        var updaterStartBat = Main.userRoot
+                + "toppAppDBdaemon/programFiles/bat/toppAppUpdater.bat";
 
-        var masterConfigPath = Paths.get("programFiles/config/master.config");
+        try {
+            Thread.sleep(3000);
+
+            var process = new ProcessBuilder("cmd.exe", "/c",
+                    updaterStartBat).start();
+
+            process.waitFor();
+
+            process.destroy();
+
+        } catch (IOException | InterruptedException ignore) {
+        }
+
+        var masterConfigPath = Paths.get(Main.userRoot
+                + "programFiles/config/master.config");
 
         try {
             Files.writeString(masterConfigPath,"01");

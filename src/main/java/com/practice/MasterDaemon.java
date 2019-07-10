@@ -2,7 +2,7 @@ package com.practice;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,17 +33,43 @@ class MasterDaemon implements Runnable{
     public void run() {
         logger.log(Level.INFO, "Daemon - Start");
 
+        var countdown = 3;
+
         try {
             do {
 
-                checkLiveUpdateCommandState();
+                if (countdown-- == 0) {
+                    logger.log(Level.INFO,
+                            "Daemon - Checking for Live Update Update Command - Start");
 
-                // Live Update Microservice Updater
-//                if(Config.liveUpdateCommandState.compareTo("0") == 0) {
-//                    new UpdateLiveUpdate().update();
-//                }
+                    checkLiveUpdateCommandState(
+                            Config.MASTER_CONFIG_PATH
+                    );
 
-                checkProgramState();
+                    if (Config.isLiveUpdate) {
+                        logger.log(Level.INFO,
+                                "Daemon - Checking for Live Update Update Command - Update Found");
+
+                        var liveUpdate = new UpdateLiveUpdate();
+
+                        liveUpdate.update();
+
+                        liveUpdate.join();
+
+                    } else {
+                        logger.log(Level.INFO,
+                                "Daemon - Checking for Live Update Update Command - No Updates Found");
+                    }
+
+                    logger.log(Level.INFO,
+                            "Daemon - Checking for Live Update Update Command - Exit");
+
+                    countdown = 3;
+                }
+
+                checkProgramState(
+                        Config.MASTER_CONFIG_PATH
+                );
 
                 Thread.sleep(2000);
             } while (Config.programState.compareTo("0") == 0);
@@ -54,20 +80,19 @@ class MasterDaemon implements Runnable{
         logger.log(Level.INFO, "Daemon - Exit");
     }
 
-    private void checkLiveUpdateCommandState() {
-        var path = Paths.get(Main.userRoot + "programFiles/config/master.config");
-
+    void checkLiveUpdateCommandState(Path masterConfig) {
         try {
-            Config.liveUpdateCommandState = Files.readString(path).substring(1, 2);
-        } catch (IOException ignore) {
+            Config.isLiveUpdate =
+                    Files.readString(masterConfig)
+                            .substring(1, 2).compareTo("0") == 0;
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error Reading Master Config File", e);
         }
     }
 
-    private void checkProgramState() {
-        var path = Paths.get(Main.userRoot +"programFiles/config/master.config");
-
+    private void checkProgramState(Path masterConfig) {
         try {
-            Config.programState = Files.readString(path).substring(0,1);
+            Config.programState = Files.readString(masterConfig).substring(0,1);
         } catch (IOException ignore) {
         }
     }
