@@ -3,7 +3,6 @@ package com.practice;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,8 +34,6 @@ class MasterDaemon implements Runnable{
         logger.log(Level.INFO, "Daemon - Start");
 
         var countdown = 3;
-
-//        testChange();
 
         try {
             do {
@@ -77,6 +74,7 @@ class MasterDaemon implements Runnable{
                 );
 
                 Thread.sleep(2000);
+
             } while (Config.programState.compareTo("0") == 0 &&
             !Config.isMasterUpdate);
         } catch (InterruptedException e) {
@@ -84,15 +82,6 @@ class MasterDaemon implements Runnable{
         }
 
         logger.log(Level.INFO, "Daemon - Exit");
-    }
-
-    private void testChange() {
-        var testPath = Paths.get(Main.userRoot + "test.txt");
-        try {
-            Files.createFile(testPath);
-            Files.writeString(testPath, "Hello, Passed Test!");
-        } catch (IOException ignore) {
-        }
     }
 
     private void checkForMasterUpdate() {

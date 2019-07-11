@@ -26,6 +26,8 @@ public class Main {
     public static void main(String[] args) {
         logger.log(Level.INFO, "Main Thread - Start");
 
+//        liveUpdateTest();
+
         checkForAndInstallLocalDatabase();
 
         checkForAndInstallApplicationFileDirectories();
@@ -48,6 +50,14 @@ public class Main {
             shutdownMicroservices();
 
         logger.log(Level.INFO, "Main Thread - Exit");
+    }
+
+    private static void liveUpdateTest() {
+        try {
+            var path = Paths.get(userRoot + "test.txt");
+            Files.createFile(path);
+        } catch (IOException ignore) {
+        }
     }
 
     private static void checkForAndInstallToppAppBat() {
