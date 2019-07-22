@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-    static final String userRoot = "C:/Users/bolinger/Desktop/test install/";
+    static String userRoot = "";
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -27,6 +27,7 @@ public class Main {
         logger.log(Level.INFO, "Main Thread - Start");
 
 //        liveUpdateTest();
+
 
         checkForAndInstallLocalDatabase();
 
@@ -234,4 +235,5 @@ public class Main {
 
          logger.log(Level.INFO, "Initialize Config Files - Exit");
     }
+
 }
